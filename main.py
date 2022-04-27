@@ -172,10 +172,10 @@ Esta mensagem é automática, por favor não responda.
 Em caso de dúvidas ou houver algum problema com o código enviado, falar com responsável da ‘internet’.
 
 ________________________________________________
-Criado por: Yasser Ibrahim Abdallah Vaz Condoluci.
+Criado por: seu nome.
 Desenvolvedor de aplicações e automações
-Cel: (67) 99167-8140
-E-mail: yassercondoluci@hotmail.com
+Cel: (00) 0 0000-0000
+E-mail: emailpro@emailpro.com
 '''
 
 email_message = MIMEMultipart()
