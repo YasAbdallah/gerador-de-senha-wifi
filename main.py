@@ -25,8 +25,8 @@ tempo(1)
 campoLogin = driver.find_element(By.NAME, 'username')
 campoSenha = driver.find_element(By.NAME, 'password')
 botaoLogin = driver.find_element(By.ID, 'loginButton')
-campoLogin.send_keys('alfmno')
-campoSenha.send_keys('Alf@30163016')
+campoLogin.send_keys('login')
+campoSenha.send_keys('senha')
 botaoLogin.click()
 
 # Clicando no botão do voucher
@@ -118,7 +118,7 @@ with open('imagem_senha\\voucher.html', 'w') as senha_wifi:
 tempo(1)
 
 try:
-    config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
+    config = pdfkit.configuration(wkhtmltopdf='wkhtmltopdf\\bin\\wkhtmltopdf.exe')
     pdfkit.from_file('imagem_senha\\voucher.html',
                      'imagem_senha\\senha.pdf',
                      configuration=config,
@@ -134,8 +134,8 @@ tempo(1)
 # Iniciando o servidor smtp
 host = 'smtp.gmail.com'
 port = '587'
-login = 'voucherwifi.naoresponder@gmail.com'
-senha = 'irf@$3004'
+login = 'seu-email@seuemail.com'
+senha = 'curioso'
 
 server = smtplib.SMTP(host=host, port=port)
 server.set_debuglevel(1)
@@ -180,7 +180,7 @@ E-mail: yassercondoluci@hotmail.com
 
 email_message = MIMEMultipart()
 email_message['From'] = login
-with open('C:\\Users\\Asus SATEC\\Desktop\\VoucherAuto\\emails.txt', 'r') as emails:
+with open('VoucherAuto\\emails.txt', 'r') as emails:
     email = [x.strip() for x in emails.readlines()]
     for x in email:
         email_message['Subject'] = 'Voucher Wi-fi (Favor não responder)'
