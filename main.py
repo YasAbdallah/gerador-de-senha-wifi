@@ -1,3 +1,4 @@
+import datetime
 import smtplib
 import pymsgbox
 import pdfkit
@@ -13,7 +14,7 @@ from selenium.webdriver.common.keys import Keys
 
 
 def mensage(titulo, texto, tempo):
-    criador = " Criado Por: Yasser Abdallah."
+    criador = " Criado Por: Meu Nome."
     return pymsgbox.alert(text=texto, title=titulo + criador, timeout=tempo)
 
 
@@ -36,7 +37,7 @@ tempo(3)
 campoLogin = driver.find_element(By.NAME, 'username')
 campoSenha = driver.find_element(By.NAME, 'password')
 botaoLogin = driver.find_element(By.ID, 'loginButton')
-campoLogin.send_keys('usuario')
+campoLogin.send_keys('login')
 campoSenha.send_keys('senha')
 botaoLogin.click()
 
@@ -59,14 +60,14 @@ tempo(3)
 campoSelectMultUser = driver.find_element(By.XPATH, '//select//option[@label="Multi use (unlimited)"]')
 campoSelectMultUser.click()
 tempo(3)
-with open("VoucherAuto\\expire_time.txt", "r") as dias:
+with open("D:\\scripts\\automacoes\\envio_voucher_wifi_viajantes\\dados\\expire_time.txt", "r") as dias:
     dias = dias.readline()
 
 texto = ["Data de expiração.", f"O tempo de duração do voucher é de {dias} dias. Para alterar essa data clique em ok?"]
 troca_data = mensage(texto[0], texto[1], 10000)
 if troca_data == 'OK':
     troca = pymsgbox.prompt("Informar a data limite:", default=30)
-    with open("VoucherAuto\\expire_time.txt", "w") as dias:
+    with open("D:\\scripts\\automacoes\\envio_voucher_wifi_viajantes\\dados\\expire_time.txt", "w") as dias:
         dias.write(troca)
         dias = troca
 
@@ -101,6 +102,8 @@ voucher = driver.find_element(By.XPATH, '//table[@id="vouchersTable"]/tbody/tr[1
 # fechandose navegador automatizado.
 driver.quit()
 
+
+mensage("Gerando PDF.", "Gerando PDF para anexo do email", 2000)
 with open('imagem_senha\\voucher.html', 'w') as senha_wifi:
     imagem_senha = f'''
     <html>
@@ -135,7 +138,7 @@ with open('imagem_senha\\voucher.html', 'w') as senha_wifi:
     '''
     senha_wifi.write(imagem_senha)
 tempo(3)
-
+mensage("Gerando PDF", "Convertendo o PDF", 2000)
 try:
     config = pdfkit.configuration(wkhtmltopdf='wkhtmltopdf\\bin\\wkhtmltopdf.exe')
     pdfkit.from_file('imagem_senha\\voucher.html',
@@ -151,10 +154,11 @@ except AttributeError as at:
 tempo(3)
 # Iniciando servidor para envio de email automatico
 # Iniciando o servidor smtp
+mensage("Conectando ao email", "Fazendo conexão ao servidor de email.", 2000)
 host = "smtp.office365.com"
 port = 587
-login = "login"
-senha = "senha"
+login = "umemail@email.com"
+senha = "umasenha"
 
 server = smtplib.SMTP(host=host, port=port)
 server.set_debuglevel(1)
@@ -177,38 +181,60 @@ encoders.encode_base64(att)
 
 att.add_header('Content-Disposition', f'attachment; filename= senha.pdf')
 attachment.close()
-
+mensage("Montando corpo do email.", "Quase lá, montando corpo do email.", 2000)
 # 2- Montando o email
 corpo = f'''
-
-{voucher}
-
-O Vale acima é a senha para rede "Viajantes" e é válido para os próximos {dias} dias.
-
-
-
-
-Esta mensagem é automática, por favor não responda.
-Em caso de dúvidas ou houver algum problema com o código enviado, falar com responsável da ‘internet’.
-
-________________________________________________
-Criado por:
-
-Cel: (00) 0 0000-0000
-E-mail: 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="background-color: #eeeeee">
+    <div style="text-align: center;">
+         <h1>Olá, Segue o novo voucher do mes {datetime.date.today().month}</h1>
+    </div>
+    <div>
+        <h1 style="text-align: center;padding:80px;font-size:45px;">{voucher}</h1>
+            <p style="text-align: center;font-family:verdana;font-size:15px">Este é o novo voucher para rede "Viajantes". Ele é válido para os próximos
+                <mark>{dias} dias</mark>.</p>
+            <p style="text-align: center;font-family:verdana;font-size:15px">Em caso de dúvidas ou houver algum problema com o voucher enviado,
+                informar o responsável pelo controle da internet.</p>
+            <p style="text-align: center;margin-top:45px;font-family:Monospace, Lucida console;font-size:18px;">Este e-mail é automatico. Por favor não responder.</p>
+    </div>
+    <br><br>
+    <hr>
+    <div>
+        <footer style="background-color: #eaeaea">
+            <table>
+                <tr>
+                    <td style="font-family:arial;font-size:12px;padding-left:10px;">
+                        <strong style="font-family:garamond; font-size:16px">Meu Nome</strong><br>
+                        <i><small>Alguma coisa</small></i><br>
+                        <strong>Contato:</strong><br>
+                        <strong>Fone: </strong>(00) 00 0000-0000 <br>
+                        <strong>E-mail: </strong>meuemail@email.com <br>
+                        <strong>LinkedIn: </strong> <a href="#">link</a>
+                    </td>
+                </tr>
+            </table>
+        </footer>
+    </div>
+</body>
+</html>
 '''
 
 email_message = MIMEMultipart()
 email_message['From'] = login
-with open('VoucherAuto\\emails.txt', 'r') as emails:
+with open('D:\\scripts\\automacoes\\envio_voucher_wifi_viajantes\\dados\\emails.txt', 'r') as emails:
     email = [x.strip() for x in emails.readlines()]
     for x in email:
         email_message['Subject'] = 'Voucher Wi-fi (Favor não responder)'
-        email_message.attach(MIMEText(corpo, 'plain'))
+        email_message.attach(MIMEText(corpo, 'html', 'utf-8'))
 
         # colocamos o anexo no corpo do email.
         email_message.attach(att)
-
+        mensage("Enviando email.", f"Enviando email para {x}.", 1500)
         # 3- Enviando e fechando o servidor
         server.sendmail(email_message['From'], x, email_message.as_string())
 # fechando servidor de e-mail
