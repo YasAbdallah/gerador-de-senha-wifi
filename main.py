@@ -14,7 +14,7 @@ from selenium.webdriver.common.keys import Keys
 
 
 def mensage(titulo, texto, tempo):
-    criador = " Criado Por: Meu Nome."
+    criador = " Criado Por: Nome."
     return pymsgbox.alert(text=texto, title=titulo + criador, timeout=tempo)
 
 
@@ -33,12 +33,14 @@ if driver.find_element(By.XPATH, '//*[@id="details-button"]'):
     driver.find_element(By.XPATH, '//*[@id="proceed-link"]').click()
 
 # Efetuando login
+user_name = ''
+password = ''
 tempo(3)
 campoLogin = driver.find_element(By.NAME, 'username')
 campoSenha = driver.find_element(By.NAME, 'password')
 botaoLogin = driver.find_element(By.ID, 'loginButton')
-campoLogin.send_keys('login')
-campoSenha.send_keys('senha')
+campoLogin.send_keys(user_name)
+campoSenha.send_keys(password)
 botaoLogin.click()
 
 # Clicando no botão do voucher
@@ -157,8 +159,8 @@ tempo(3)
 mensage("Conectando ao email", "Fazendo conexão ao servidor de email.", 2000)
 host = "smtp.office365.com"
 port = 587
-login = "umemail@email.com"
-senha = "umasenha"
+login = ""
+senha = ""
 
 server = smtplib.SMTP(host=host, port=port)
 server.set_debuglevel(1)
@@ -192,7 +194,7 @@ corpo = f'''
 </head>
 <body style="background-color: #eeeeee">
     <div style="text-align: center;">
-         <h1>Olá, Segue o novo voucher do mes {datetime.date.today().month}</h1>
+         <h1>Olá, Segue o novo voucher do mes {datetime.date.today().month + 1}</h1>
     </div>
     <div>
         <h1 style="text-align: center;padding:80px;font-size:45px;">{voucher}</h1>
@@ -209,12 +211,12 @@ corpo = f'''
             <table>
                 <tr>
                     <td style="font-family:arial;font-size:12px;padding-left:10px;">
-                        <strong style="font-family:garamond; font-size:16px">Meu Nome</strong><br>
-                        <i><small>Alguma coisa</small></i><br>
-                        <strong>Contato:</strong><br>
-                        <strong>Fone: </strong>(00) 00 0000-0000 <br>
-                        <strong>E-mail: </strong>meuemail@email.com <br>
-                        <strong>LinkedIn: </strong> <a href="#">link</a>
+                        <strong style="font-family:garamond; font-size:16px">Desenvolvido por: </strong><br>
+                        <i><small></small></i><br>
+                        <strong>Contato</strong><br>
+                        <strong>Telefone: () 0 0000-0000</strong><br>
+                        <strong>E-mail: </strong><a href="mailto:"></a> <br>
+                        <strong>LinkedIn: </strong> <a href="">in//a>
                     </td>
                 </tr>
             </table>
