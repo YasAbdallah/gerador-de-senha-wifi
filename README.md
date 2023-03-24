@@ -7,5 +7,5 @@ Seu funcionamento é:
 <li>Gerar novo voucher</li>
 <li>Gerar um PDF com o codigo</li>
 <li>Enviar PDF por e-mail</li>
-<li>Repetir a cada N dias</li>
+<li>Repetir todo último dia do mês</li>
 </ul>

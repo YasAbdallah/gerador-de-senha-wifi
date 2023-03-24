@@ -2,23 +2,23 @@ from lib.funcoes import menssagem, criarPDF
 from lib.navegacao import Navegar
 from lib.email import Email
 from time import sleep
-espera = lambda t: sleep(t)
 
 menssagem("Bem-vindo ao gerador de voucher.", "Iniciando Gerador de voucher", 3000)
 
-site_voucher = ''
-url_web_driver = ''
-caminho_driver = ''
+siteVoucher = 'https://localhost:8443/manage/hotspot'
+caminhoDriver = 'D:\\scripts\\webDriver'
 
-login = {'username': '', 'pwd': ''}
+loginUbiquiti = {'username': '', 'pwd': ''}
+loginEmail = {'username': '', 'pwd':''}
 
 acoes = {
     # Verificando se existe o botão de segurança
     '//*[@id="details-button"]': '',
     '//*[@id="proceed-link"]': '',
     # Logar
-    'username': login['username'],
-    'password': login['pwd'],
+    '//input[@name="username"]': loginUbiquiti['username'],
+    '//input[@name="password"]': loginUbiquiti['pwd'],
+    '//button[@id="loginButton"]': '',
     # Botão Voucher
     '//div[@class="ubntIcon ubntIcon--navigation icon ubnt-icon--news"]': '',
     # Criando um novo voucher
@@ -42,7 +42,7 @@ acoes = {
 }
 
 # Primeiro faz a automação de navegação e criação de um novo Voucher
-driver = Navegar(site=site_voucher, urlWebDriver=url_web_driver, caminhoDriver=caminho_driver, xpaths=acoes)
+driver = Navegar(site=siteVoucher, caminhoDriver=caminhoDriver, xpaths=acoes)
 voucher = driver.gerarVoucher()
 
 # Após o voucher ser gerado, criar o PDF para anexo ao email
@@ -51,7 +51,7 @@ menssagem("Gerando PDF.", "Gerando PDF para anexo do email", 2000)
 gerarPDF = criarPDF(voucher)
 
 # Conectando ao servidor de email 
-conectar = Email(email=login['email'], pwd=login['pwd'], voucher=voucher)
+conectar = Email(email=loginEmail['username'], pwd=loginEmail['pwd'], voucher=voucher)
 
 menssagem("Quase lá!.", "Conectanto ao servidor de email", 2000)
 conn = conectar.conectarServidor()

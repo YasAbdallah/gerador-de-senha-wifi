@@ -10,14 +10,14 @@ class Download:
     '''
     Este objeto foi criado para baixar automaticamente o webdriver mais recente do webDriver de sua preferência.
     '''
-    def __init__(self, url, caminhoDown, caminhoDesc):
+    def __init__(self, caminhoDown, caminhoDesc):
         '''
 
         :param url: Url do site onde faz o download do webDriver
         :param caminhoDown: Caminho no computador onde quer fazer o download do arquivo
         :param caminhoDesc: Caminho no computador onde quer descompactar o arquivo baixado
         '''
-        self.url = url
+        self.url = 'https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/'
         self.caminhoDown = caminhoDown
         self.caminhoDesc = caminhoDesc
         self.arquivo = ''

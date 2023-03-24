@@ -1,5 +1,5 @@
 import smtplib
-from funcoes import menssagem
+from lib.funcoes import menssagem
 from datetime import date, timedelta
 from email import encoders
 from email.mime.base import MIMEBase
@@ -50,11 +50,11 @@ class Email:
         <body style="background-color: #eeeeee">
             <div style="text-align: center;">
                 <h1>Olá, Segue o novo voucher do mes {date.today().month + 1}</h1>
-            </div>en
+            </div>
             <div>
                 <h1 style="text-align: center;padding:80px;font-size:45px;">{self.voucher}</h1>
                     <p style="text-align: center;font-family:verdana;font-size:15px">Este é o novo voucher para rede "Viajantes". Ele é válido até
-                        <mark>{format(date.today() + timedelta(30), "%d/%m/%Y")} dias</mark>.</p>
+                        <mark>{format(date.today() + timedelta(30), "%d/%m/%Y")}</mark>.</p>
                     <p style="text-align: center;font-family:verdana;font-size:15px">Em caso de dúvidas ou houver algum problema com o voucher enviado,
                         informar o responsável pelo controle da internet.</p>
                     <p style="text-align: center;margin-top:45px;font-family:Monospace, Lucida console;font-size:18px;">Este e-mail é automatico. Por favor não responder.</p>
@@ -66,12 +66,12 @@ class Email:
                     <table>
                         <tr>
                             <td style="font-family:arial;font-size:12px;padding-left:10px;">
-                                <strong style="font-family:garamond; font-size:16px">Desenvolvido por: </strong><br>
-                                <i><small></small></i><br>
+                                <strong style="font-family:garamond; font-size:16px">Desenvolvido por: </strong> Meu nome aqui!<br>
+                                <i><small> Informação ou cargo aqui </small></i><br>
                                 <strong>Contato</strong><br>
-                                <strong>Telefone: () 0 0000-0000</strong><br>
-                                <strong>E-mail: </strong><a href="mailto:"></a> <br>
-                                <strong>LinkedIn: </strong> <a href="">in//a>
+                                <strong>Telefone: (00) 0 0000-0000</strong><br>
+                                <strong>E-mail: </strong><a href="mailto:seuemail@email.com">Clique aqui</a> e entre em contato. <br>
+                                <strong>LinkedIn: </strong> <a href="#">Seu Nome aqui</a>
                             </td>
                         </tr>
                     </table>
