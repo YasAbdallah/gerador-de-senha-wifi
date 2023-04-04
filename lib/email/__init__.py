@@ -12,7 +12,7 @@ class Email:
         self.email = email
         self.pwd = pwd
         self.voucher = voucher
-
+        self.caminho = 'D:\\scripts\\automacoes\\envio_voucher_wifi_viajantes\\'
     def conectarServidor(self):
         try:
             server = smtplib.SMTP(host='smtp.office365.com', port=587)
@@ -27,7 +27,7 @@ class Email:
 
     
     def enviarEmail(self, server):
-        attachment = open('imagem_senha\\senha_wifi.pdf', 'rb')
+        attachment = open(f'{self.caminho}imagem_senha\\senha_wifi.pdf', 'rb')
 
         # pegando o arquivo do modo binario e convertendo em base 64 (é o que o email precisa)
         att = MIMEBase('application', 'octet-stream')
@@ -66,12 +66,15 @@ class Email:
                     <table>
                         <tr>
                             <td style="font-family:arial;font-size:12px;padding-left:10px;">
-                                <strong style="font-family:garamond; font-size:16px">Desenvolvido por: </strong> Meu nome aqui!<br>
-                                <i><small> Informação ou cargo aqui </small></i><br>
-                                <strong>Contato</strong><br>
-                                <strong>Telefone: (00) 0 0000-0000</strong><br>
-                                <strong>E-mail: </strong><a href="mailto:seuemail@email.com">Clique aqui</a> e entre em contato. <br>
-                                <strong>LinkedIn: </strong> <a href="#">Seu Nome aqui</a>
+                                <strong style="font-family:garamond; font-size:16px">Desenvolvido por: </strong> Seu nome aqui.<br>
+                                <i><small> Seu cargo aqui </small></i><br>
+                                <ul>
+                                    <h3><strong>Contato</strong></h3>
+                                    <li><strong>Telefone: (00) 0 0000-0000</strong></li>
+                                    <li><strong>E-mail: </strong><a href="mailto:">Clique aqui</a> e entre em contato. </li>
+                                    <li><strong>LinkedIn: </strong> Veja meu linkedIn <a href="https://www.linkedin.com/in//">Clicando aqui</a>. </li>
+                                    <li><strong>GitHub : </strong> Veja meu Github <a href="https://github.com/">clicando aqui</a>. </li>
+                                </ul>
                             </td>
                         </tr>
                     </table>
@@ -83,7 +86,7 @@ class Email:
 
         email_message = MIMEMultipart()
         email_message['From'] = self.email
-        with open('D:\\scripts\\automacoes\\envio_voucher_wifi_viajantes\\dados\\emails.txt', 'r') as emails:
+        with open(f'{self.caminho}dados\\emails.txt', 'r') as emails:
             email = [x.strip() for x in emails.readlines()]
             for x in email:
                 email_message['Subject'] = 'Voucher Wi-fi (Favor não responder)'
@@ -92,4 +95,4 @@ class Email:
                 email_message.attach(att)
                 menssagem("Enviando email.", f"Enviando email para {x}.", 1500)
                 server.sendmail(email_message['From'], x, email_message.as_string())
-                server.close()
+            server.close()
