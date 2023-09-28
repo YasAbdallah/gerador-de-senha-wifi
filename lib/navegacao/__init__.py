@@ -1,6 +1,8 @@
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.edge.service import Service
 from lib.downloads import Download
 from time import sleep
 
@@ -20,8 +22,18 @@ class Navegar:
     def gerarVoucher(self):
         pegarTexto = ''
         try:
+            # Procura na pasta onde está instalado o edgrDriver se o mesmo existe.
+            for exe in os.scandir(self.caminhoDriver):
+                if '.exe' in exe.name:
+                    edgeEXE = exe.name
+                    break
+
+            print(os.path.join(self.caminhoDriver, edgeEXE))
+
+            #Executa o navegador automatizado.
             opcoes = webdriver.EdgeOptions()
-            driver = webdriver.Edge(executable_path=f'{self.caminhoDriver}\\msedgedriver.exe', options=opcoes)
+            service = Service(executable_path=os.path.join(self.caminhoDriver, edgeEXE))
+            driver = webdriver.Edge(service=service, options=opcoes)
         except Exception as e:
             print(e)
             download = Download(self.caminhoDriver, self.caminhoDriver)

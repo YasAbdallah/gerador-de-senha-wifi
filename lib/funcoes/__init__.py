@@ -1,61 +1,56 @@
 import pymsgbox
-import pdfkit
+import wifi_qrcode_generator.generator
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from random import randint
 
 def menssagem(titulo, texto, tempo):
-    criador = " Criado Por: Nome."
+    criador = " Criado Por: Yasser Ibrahim Abdallah Vaz Condoluci."
     return pymsgbox.alert(text=texto, title=titulo + criador, timeout=tempo)
 
+def mm2p(mm):
+    return mm / 0.352777
 
-def criarPDF(voucher):
+def criarPDF(senha):
     caminho = 'D:\\scripts\\automacoes\\envio_voucher_wifi_viajantes\\'
-    with open(f'{caminho}imagem_senha\\voucher.html', 'w') as senha_wifi:
-        imagem_senha = f'''
-        <!DOCTYPE html>
-            <html lang="pt-br">
-            <head>
-                <meta charset="UTF-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width='device-width', initial-scale=1.0">
-            </head>
-            <body>
-                <img style="position:absolute;width:10.00in;height:14.00in" src="{caminho}imagem_senha/ci_1.png" />
-                <div style="position:absolute;top:6.70in;left:1.80in;width:3.00in;line-height:3.50in;">
-                    <span style="font-style:normal;font-weight:normal;font-size:98pt;font-family:Alice;color:#000000">"Viajantes"</span>
-                    <span style="font-style:normal;font-weight:normal;font-size:150pt;font-family:Alice;color:#000000"> </span>
-                    <br/>
-                </div>
-                <div style="position:absolute;top:5.50in;left:2.94in;width:3.00in;line-height:3.40in;">
-                    <span style="font-style:normal;font-weight:normal;font-size:130pt;font-family:Alice;color:#000000">WIFI</span>
-                    <span style="font-style:normal;font-weight:normal;font-size:150pt;font-family:Alice;color:#000000"> </span>
-                    <br/>
-                </div>
-                <img style="position:absolute;top:8.00in;left:7.95in;width:0.90in;height:1.70in;transform:rotate(23deg);" src="{caminho}imagem_senha/ri_1.png" />
-                <div style="position:absolute;top:4.55in;left:2.50in;width:8.49in;line-height:2.90in;">
-                    <span style="font-style:normal;font-weight:normal;font-size:90pt;font-family:Alice;color:#000000">Senha do</span>
-                    <span style="font-style:normal;font-weight:normal;font-size:100pt;font-family:Alice;color:#000000"> </span>
-                    <br/>
-                </div>
-                <div style="position:absolute;top:8.60in;left:2.90in;width:6.95in;line-height:2.90in;">
-                    <span style="font-style:normal;font-weight:normal;font-size:60pt;font-family:Alice;color:#000000">{voucher}</span>
-                    <span style="font-style:normal;font-weight:normal;font-size:89pt;font-family:Alice;color:#000000"> </span>
-                    <br/>
-                </div>
-            </body>
-            </html>
-        '''
-        senha_wifi.write(imagem_senha)
-    try:
-        config = pdfkit.configuration(wkhtmltopdf='wkhtmltopdf\\bin\\wkhtmltopdf.exe')
-        pdfkit.from_file(
-            f'{caminho}imagem_senha\\voucher.html',
-            f'{caminho}imagem_senha\\senha_wifi.pdf',
-            configuration=config,
-            options={
-            "enable-local-file-access": True
-            }
-            )
-    except AttributeError as at:
-        # Tive que colocar essa exception pq quando faço um .exe do script da esse erro de atributo
-        # dizendo que AttributeError: 'NoneType' object has no attribute 'write'
-        # mas quando roda o script sem ser no .exe executa normalmente sem erro algum.
-        pass
+    cnv = canvas.Canvas("senha_wifi.pdf", pagesize=A4)
+
+    cnv.rect(mm2p(1.70), mm2p(1.70), width=mm2p(206.18), height=mm2p(293.18))
+    cnv.drawImage(f"{caminho}imagem_senha\\wifi_logo.png", 100, mm2p(120), width=mm2p(150), height=mm2p(230), preserveAspectRatio=True, mask="auto")
+    cnv.drawImage(f"{caminho}imagem_senha\\qrcode_senha.png", mm2p(60), mm2p(53), width=mm2p(90), height=mm2p(150), preserveAspectRatio=True, mask="auto")
+
+    pdfmetrics.registerFont(TTFont('arial', 'arial.ttf'))
+    pdfmetrics.registerFont(TTFont('Franklin Gotic', 'framd.ttf'))
+    pdfmetrics.registerFont(TTFont('Segoe', 'segoesc.ttf'))
+
+    cnv.setFont('arial', 30)
+    cnv.drawString(mm2p(40), mm2p(50), "Para acessar o wifi, aponte a")
+    cnv.drawString(mm2p(15), mm2p(40), "câmera do seu celular para QR-Code.")
+    cnv.drawString(mm2p(40), mm2p(30), f"Ou use a senha {senha}")
+
+    cnv.setFont('Franklin Gotic', 10)
+    cnv.drawString(mm2p(2), mm2p(3), "Criado por: ")
+    cnv.setFont('Segoe', 10)
+    cnv.drawString(mm2p(20), mm2p(3), "Yasser Ibrahim Abdallah Vaz Condoluci.")
+    cnv.save()
+    
+
+def gerarqrCode(senha):
+    caminho = 'D:\\scripts\\automacoes\\envio_voucher_wifi_viajantes\\'
+
+    qr_code = wifi_qrcode_generator.generator.wifi_qrcode(
+        ssid='Viajantes', hidden=False, authentication_type='WPA', password=senha
+    )
+    qr_code.print_ascii()
+    qr_code.make_image().save(f'{caminho}imagem_senha\\qrcode_senha.png')
+
+
+def gerarSenhaWifi():
+    i = 0
+    senha = ''
+    for i in range(10):
+        senha += '-' if i == 5 else ''
+        senha += str(randint(0, 10))
+    return senha

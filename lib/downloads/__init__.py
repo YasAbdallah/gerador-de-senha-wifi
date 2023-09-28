@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen, urlretrieve
-from urllib.error import HTTPError, URLError
 from zipfile import ZipFile
 from time import sleep
 import os
@@ -29,9 +28,7 @@ class Download:
         '''
         try:
             html = urlopen(self.url)
-        except HTTPError as e:
-            print(e)
-        except URLError as e:
+        except Exception as e:
             print(e)
         else:
             return BeautifulSoup(html.read(), 'html.parser')
@@ -43,30 +40,28 @@ class Download:
         :return: Retorna o arquivo descompactado e pronto para uso.
         '''
         bs = self.pegaPagina()
-        for child in bs.find('p', {'class': 'driver-download__meta'}).children:
+        for child in bs.find_all('a', {'class': 'driver-download__link'}):
             if 'x64' in child:
                 x64 = child.attrs['href']
                 self.arquivo = str(x64).split('/')[-1]
-                local_filename, headers = urlretrieve(x64, filename=f'{self.caminhoDown}{self.arquivo}')
+                local_filename, headers = urlretrieve(x64, filename=os.path.join(self.caminhoDown, self.arquivo))
                 down = open(local_filename)
                 down.close()
-                self.descompacta()
+                sleep(3)
+                self.descompactar()
 
-    def descompacta(self):
+                break
+
+    def descompactar(self):
         '''
         Feito para descompactar o arquivo .zip em uma pasta.
         :return: Retorna o arquivo descompactado.
         '''
-        self.arquivo = [os.path.join(d, a[0]) for d, f, a in os.walk(self.caminhoDesc)]
-        desc = ZipFile(self.arquivo[0])
-        desc.extractall(self.caminhoDesc)
-        desc.close()
-        sleep(3)
-        self.deletaZip()
-
-    def deletaZip(self):
-        '''
-        Deleta o arquivo .zip.
-        :return: Remove o arquivo .zip apenas.
-        '''
-        return os.remove(self.arquivo[0])
+        try:
+            desc = ZipFile(os.path.join(self.caminhoDown, self.arquivo))
+            desc.extractall(self.caminhoDesc)
+            desc.close()
+        except Exception as e:
+            print(e)
+        else:
+            return os.remove(os.path.join(self.caminhoDesc, self.arquivo))

@@ -1,4 +1,5 @@
 import smtplib
+import calendar
 from lib.funcoes import menssagem
 from datetime import date, timedelta
 from email import encoders
@@ -38,7 +39,7 @@ class Email:
         att.add_header('Content-Disposition', f'attachment; filename= senha_wifi.pdf')
         attachment.close()
         menssagem("Montando corpo do email.", "Quase lá, montando corpo do email.", 2000)
-        
+        qntDias = calendar.monthrange(date.today().year, date.today().month)[1]
         # 2- Montando corpo do email
         corpo = f'''
         <!DOCTYPE html>
@@ -49,13 +50,13 @@ class Email:
         </head>
         <body style="background-color: #eeeeee">
             <div style="text-align: center;">
-                <h1>Olá, Segue o novo voucher do mes {date.today().month + 1}</h1>
+                <h1>Olá, Segue o novo voucher do mes {date.today().month}</h1>
             </div>
             <div>
                 <h1 style="text-align: center;padding:80px;font-size:45px;">{self.voucher}</h1>
                     <p style="text-align: center;font-family:verdana;font-size:15px">Este é o novo voucher para rede "Viajantes". Ele é válido até
-                        <mark>{format(date.today() + timedelta(30), "%d/%m/%Y")}</mark>.</p>
-                    <p style="text-align: center;font-family:verdana;font-size:15px">Em caso de dúvidas ou houver algum problema com o voucher enviado,
+                        <mark>{format(date.today() + timedelta(qntDias), "%d/%m/%Y")}</mark>.</p>
+                    <p style="text-align: center;font-family:verdana;font-size:15px">Em caso de dúvidas ou houver algum problema com a senha enviada,
                         informar o responsável pelo controle da internet.</p>
                     <p style="text-align: center;margin-top:45px;font-family:Monospace, Lucida console;font-size:18px;">Este e-mail é automatico. Por favor não responder.</p>
             </div>
@@ -66,14 +67,14 @@ class Email:
                     <table>
                         <tr>
                             <td style="font-family:arial;font-size:12px;padding-left:10px;">
-                                <strong style="font-family:garamond; font-size:16px">Desenvolvido por: </strong> Seu nome aqui.<br>
-                                <i><small> Seu cargo aqui </small></i><br>
+                                <strong style="font-family:garamond; font-size:16px">Desenvolvido por: </strong> Yasser Ibrahim Abdallah Vaz Condoluci.<br>
+                                <i><small> Engenheiro de software </small></i><br>
                                 <ul>
                                     <h3><strong>Contato</strong></h3>
-                                    <li><strong>Telefone: (00) 0 0000-0000</strong></li>
-                                    <li><strong>E-mail: </strong><a href="mailto:">Clique aqui</a> e entre em contato. </li>
-                                    <li><strong>LinkedIn: </strong> Veja meu linkedIn <a href="https://www.linkedin.com/in//">Clicando aqui</a>. </li>
-                                    <li><strong>GitHub : </strong> Veja meu Github <a href="https://github.com/">clicando aqui</a>. </li>
+                                    <li><strong>Telefone: (67) 9 9167-8140</strong></li>
+                                    <li><strong>E-mail: </strong><a href="mailto:yassercondoluci@hotmail.com">Clique aqui</a> e entre em contato. </li>
+                                    <li><strong>LinkedIn: </strong> Veja meu linkedIn <a href="https://www.linkedin.com/in/yasser-ibrahim-abdallah/">Clicando aqui</a>. </li>
+                                    <li><strong>GitHub : </strong> Veja meu Github <a href="https://github.com/YasAbdallah">Clicando aqui</a>. </li>
                                 </ul>
                             </td>
                         </tr>

@@ -2,7 +2,7 @@ import sys
 
 from cx_Freeze import setup, Executable
 
-options = {'packages': ['os', 'email', 'pdfkit', 'smtplib', 'selenium', 'pymsgbox'], 'excludes': ['tkinter']}
+options = {'packages': ['os', 'email', 'smtplib', 'selenium', 'pymsgbox', 'wifi_qrcode_generator', 'reportlab', 'calendar'], 'excludes': ['tkinter']}
 base = None
 if sys.platform == 'win32':
     base = 'Win32GUI'
