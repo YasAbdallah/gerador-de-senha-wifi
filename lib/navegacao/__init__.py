@@ -24,18 +24,8 @@ class Navegar:
     def gerarVoucher(self):
         pegarTexto = ''
         try:
-            # Procura na pasta onde está instalado o edgrDriver se o mesmo existe.
-            for exe in os.scandir(self.caminhoDriver):
-                if '.exe' in exe.name:
-                    edgeEXE = exe.name
-                    break
-
-            print(os.path.join(self.caminhoDriver, edgeEXE))
-
-            #Executa o navegador automatizado.
             opcoes = webdriver.EdgeOptions()
-            service = Service(executable_path=os.path.join(self.caminhoDriver, edgeEXE))
-            driver = webdriver.Edge(service=service, options=opcoes)
+            driver = webdriver.Edge(options=opcoes)
         except Exception as e:
             print(e)
             download = Download(self.urlWebDriver, self.caminhoDriver, self.caminhoDriver)

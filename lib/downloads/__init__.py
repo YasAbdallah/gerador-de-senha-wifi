@@ -1,5 +1,4 @@
-from bs4 import BeautifulSoup
-from urllib.request import urlopen, urlretrieve
+from urllib.request import urlretrieve
 from zipfile import ZipFile
 from time import sleep
 import os
@@ -7,7 +6,7 @@ import os
 
 class Download:
     '''
-    Este objeto foi criado para baixar automaticamente o webdriver mais recente do webDriver de sua preferência.
+    Este objeto foi criado para baixar automaticamente o webdriver mas recente do MS Edge.
     '''
     def __init__(self, url, caminhoDown, caminhoDesc):
         '''
@@ -27,21 +26,27 @@ class Download:
         Descrição: Faz o download do arquivo .zip, descompacta o arquivo e deleta o arquivo .zip ao final da execução.
         :return: Retorna o arquivo descompactado e pronto para uso.
         '''
+        
         local_filename, headers = urlretrieve(self.caminhoDown)
         down = open(local_filename)
         down.close()
-        self.descompactar()
+        self.descompacta()
 
-    def descompactar(self):
+    def descompacta(self):
         '''
         Feito para descompactar o arquivo .zip em uma pasta.
         :return: Retorna o arquivo descompactado.
         '''
-        try:
-            desc = ZipFile(os.path.join(self.caminhoDown, self.arquivo))
-            desc.extractall(self.caminhoDesc)
-            desc.close()
-        except Exception as e:
-            print(e)
-        else:
-            return os.remove(os.path.join(self.caminhoDesc, self.arquivo))
+        self.arquivo = [os.path.join(d, a[0]) for d, f, a in os.walk(self.caminhoDesc)]
+        desc = ZipFile(self.arquivo[0])
+        desc.extractall(self.caminhoDesc)
+        desc.close()
+        sleep(3)
+        self.deletaZip()
+
+    def deletaZip(self):
+        '''
+        Feito para deletar o arquivo .zip.
+        :return: Remove o arquivo .zip apenas.
+        '''
+        os.remove(self.arquivo[0])
