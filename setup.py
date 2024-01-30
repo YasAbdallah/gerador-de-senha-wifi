@@ -10,7 +10,7 @@ if sys.platform == 'win32':
 setup(
     name='Gerador de Voucher',
     version='1.0',
-    description='Gerador de vales para wifi com um gerador de pdf com o vale e envio de email para responsaveis.',
+    description='Gerador de senha para wifi com um gerador de pdf com a senha e envio de email para responsaveis.',
     options={'build.exe': options},
     executables=[Executable('main.py', base=base)]
 )

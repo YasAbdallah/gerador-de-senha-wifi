@@ -50,15 +50,15 @@ class Email:
         </head>
         <body style="background-color: #eeeeee">
             <div style="text-align: center;">
-                <h1>Olá, Segue o novo voucher do mes {date.today().month}</h1>
+                <h1>Olá, segue a nova senha do mês {date.today().month}.</h1>
             </div>
             <div>
                 <h1 style="text-align: center;padding:80px;font-size:45px;">{self.voucher}</h1>
-                    <p style="text-align: center;font-family:verdana;font-size:15px">Este é o novo voucher para rede "Viajantes". Ele é válido até
+                    <p style="text-align: center;font-family:verdana;font-size:15px">Este é a nova senha para rede "Viajantes". Ele é válido até
                         <mark>{format(date.today() + timedelta(qntDias), "%d/%m/%Y")}</mark>.</p>
                     <p style="text-align: center;font-family:verdana;font-size:15px">Em caso de dúvidas ou houver algum problema com a senha enviada,
                         informar o responsável pelo controle da internet.</p>
-                    <p style="text-align: center;margin-top:45px;font-family:Monospace, Lucida console;font-size:18px;">Este e-mail é automatico. Por favor não responder.</p>
+                    <p style="text-align: center;margin-top:45px;font-family:Monospace, Lucida console;font-size:18px;">Este e-mail é automático. Por favor, não responda.</p>
             </div>
             <br><br>
             <hr>
@@ -90,7 +90,7 @@ class Email:
         with open(f'{self.caminho}dados\\emails.txt', 'r') as emails:
             email = [x.strip() for x in emails.readlines()]
             for x in email:
-                email_message['Subject'] = 'Voucher Wi-fi (Favor não responder)'
+                email_message['Subject'] = 'Senha Wi-fi "Viajantes" - E-mail automático, favor não responda.'
                 email_message.attach(MIMEText(corpo, 'html', 'utf-8'))
                 # colocamos o anexo no corpo do email.
                 email_message.attach(att)

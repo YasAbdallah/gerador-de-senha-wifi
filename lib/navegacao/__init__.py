@@ -17,6 +17,8 @@ class Navegar:
         """
         self.site = site
         self.caminhoDriver = caminhoDriver
+        self.versaoDriver = [f for d, f, a in os.walk('C:\\Program Files (x86)\\Microsoft\\Edge\\Application')][0][0]
+        self.urlWebDriver = f"https://msedgedriver.azureedge.net/{self.versaoDriver}/edgedriver_win64.zip"
         self.xpaths = xpaths
 
     def gerarVoucher(self):
@@ -36,7 +38,7 @@ class Navegar:
             driver = webdriver.Edge(service=service, options=opcoes)
         except Exception as e:
             print(e)
-            download = Download(self.caminhoDriver, self.caminhoDriver)
+            download = Download(self.urlWebDriver, self.caminhoDriver, self.caminhoDriver)
             download.download()
             self.gerarVoucher()
         else:

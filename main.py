@@ -10,8 +10,8 @@ caminhoDriver = 'C:\\scripts\\webDriver'
 if not os.path.exists(caminhoDriver):
     os.makedirs(caminhoDriver)
 
-loginUbiquiti = {'username': 'alfmno', 'pwd': 'Alf@30163016'}
-loginEmail = {'username': 'voucherwifi-naoresponder@outlook.com', 'pwd':'irf@$3004'}
+loginUbiquiti = {'username': 'Opsss', 'pwd': 'SemMaisSenhasPorAqui'}
+loginEmail = {'username': 'SemEmailsTbm', 'pwd':'JáDisseNé'}
 
 senhaWifi = fc.gerarSenhaWifi()
 
@@ -29,9 +29,9 @@ acoes = {
     # Botão Wireless Network
     '//unifi-settings-side-nav//unifi-settings-nav//span[text()="Wireless Networks"]' if '//unifi-settings-side-nav//unifi-settings-nav//span[text()="Wireless Networks"]' else '//unifi-settings-nav//span[text()="Wireless Networks"]': '',
     # Select wlan group
-    '//select//option[text()="viajantes"]': '',
-    # Botão edit rede viajantes
-    '//tr[2]//td[@class="wlanActions appTableCell--actions"]//button[1]': '',
+    '//select//option[text()="satec"]': '',
+    # Botão edit rede viajantes -> '//tr[2]//td[@class="wlanActions appTableCell--actions"]//button[1]'
+    '//tr[1]//td[@class="wlanActions appTableCell--actions"]//button[1]': '',
     # Campo senha rede viajantes
     '//div[@class="appRow"]//input[@type="password"]': senhaWifi,
     # Botão salvar configurações
