@@ -10,8 +10,8 @@ caminhoDriver = 'C:\\scripts\\webDriver'
 if not os.path.exists(caminhoDriver):
     os.makedirs(caminhoDriver)
 
-loginUbiquiti = {'username': 'Opsss', 'pwd': 'SemMaisSenhasPorAqui'}
-loginEmail = {'username': 'SemEmailsTbm', 'pwd':'JáDisseNé'}
+loginUbiquiti = {'username': 'Opaaa', 'pwd': 'SemSenhaPorAqui'}
+loginEmail = {'username': 'issoNaoEUmEmail@valido.com', 'pwd':'semSenhaPorAquiTambem'}
 
 senhaWifi = fc.gerarSenhaWifi()
 
