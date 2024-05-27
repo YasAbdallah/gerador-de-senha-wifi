@@ -1,4 +1,4 @@
-# Gerador de voucher Wifi
+# Gerador de senha Wifi
 <p>Este script foi criado com a intenção de facilitar a geração de vouchers de uma rede wifi.</p>
 Seu funcionamento é:
 <ul>
